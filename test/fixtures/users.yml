@@ -1,27 +1,50 @@
+# test/fixtures/users.yml
+
+example:
+  name: Example User
+  email: example@railstutorial.org
+  password_digest: <%= User.digest('password') %>
+  activation_digest: <%= User.digest(User.new_token) %>
+  reset_digest: <%= User.digest(User.new_token) %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
+
+# Other predefined users for testing purposes
 michael:
   name: Michael Example
   email: michael@example.com
   password_digest: <%= User.digest('password') %>
   admin: true
+  activated: true
+  activated_at: <%= Time.zone.now %>
 
 archer:
   name: Sterling Archer
   email: duchess@example.gov
   password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 
 lana:
   name: Lana Kane
   email: hands@example.gov
   password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 
 malory:
   name: Malory Archer
   email: boss@example.gov
   password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 
+# Generate 30 example users with unique names and emails
 <% 30.times do |n| %>
 user_<%= n %>:
   name:  <%= "User #{n}" %>
   email: <%= "user-#{n}@example.com" %>
   password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 <% end %>

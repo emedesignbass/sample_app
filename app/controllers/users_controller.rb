@@ -41,19 +41,40 @@ class UsersController < ApplicationController
     end
   end
 
-
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url, status: :see_other
   end
 
+  # アカウント有効化用のメソッド
+  def edit_account_activation
+    @user = User.find_by(activation_token: params[:id])
+    if @user && @user.activated_at.nil?
+      @user.activate
+      flash[:success] = "アカウントが有効化されました！"
+      redirect_to @user
+    else
+      flash[:danger] = "無効なアカウント有効化リンクです。"
+      redirect_to root_url
+    end
+  end
+
+  # パスワードリセット用のメソッド
+  def edit_password_reset
+    @user = User.find_by(reset_token: params[:id])
+    if @user
+      # パスワードリセット用のフォームを表示するための処理を追加
+    else
+      flash[:danger] = "無効なパスワードリセットリンクです。"
+      redirect_to root_url
+    end
+  end
 
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
     # beforeフィルタ
